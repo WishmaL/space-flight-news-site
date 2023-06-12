@@ -1,36 +1,25 @@
-import React from 'react'
+'use client';
 
-const getData = async () => {
-  const res = await fetch('https://api.spaceflightnewsapi.net/v4/articles/')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+import React, { useState, useEffect } from 'react'
+import Pagination from './pagination';
+import getData from '../app/api/articles/getAllArticles'
 
-  // Recommendation: handle errors
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
-
-  console.log('res: ', res)
-
-  return res.json()
-}
 
 const ArticleList = () => {
-
-
   const [articles, setArticles] = useState([])
 
   useEffect(async () => {
-    const data = await getData()
-    setArticles(data)
+    const data = await getData(10, 10)
+    setArticles(data.results)
   }, [])
 
   console.log("articles: ", articles)
 
-
   return (
-    <div>ArticleList</div>
+    <>
+      <div>ArticleList</div>
+      <Pagination />
+    </>
   )
 }
 
