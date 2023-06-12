@@ -56,7 +56,7 @@ const Pagination = ({ onPageChange, currentPage,
 
         // If the pageItem is a DOT, render the DOTS unicode character
         if (pageNumber === DOTS) {
-          return <li className="pagination-item dots text-white">&#8230;</li>;
+          return <li key={pageNumber} className="pagination-item dots text-white">&#8230;</li>;
         }
 
         // Render our Page Pills
