@@ -31,3 +31,7 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.react-search-box-dropdown-list-item {
+  color: black;
+}

@@ -1,38 +1,41 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Pagination from './pagination/pagination';
 import ArticleCard from './articleCard';
 import { ArticleType } from '@/typings/article';
 import getData from '@/app/api/articles/getAllArticles';
 import ReactSearchBox from 'react-search-box';
+import { setArticles, setCurrentPage, setTotalCount, setTerm, reset } from "@/redux/features/articleSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const ArticleList = () => {
-  const [articles, setArticles] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [term, setTerm] = useState('');
+
+  const { articles, currentPage, term, totalCount } = useAppSelector((state) => state.articleReducer);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async () => {
       const data = await getData(10, 10 * (currentPage - 1), term);
-      setArticles(data.results);
-      setTotalCount(data.count);
+      dispatch(setArticles(data.results));
+      dispatch(setTotalCount(data.count));
     })();
   }, [term, currentPage]);
 
   const searchBarProps = {
-    placeholder: 'Search for articles...',
+    placeholder: term !== '' ? 'Search for articles...' : term,
     value: term,
     data: [...articles.map((a: ArticleType) => { return { key: a.id.toString(), value: a.title } })],
     callback: (record: string) => console.log(record),
     onSelect: (e: any) => { console.log("onSelect: ", e) },
     onChange: (e: any) => {
-      setTerm(e);
+      dispatch(setTerm(e));
     },
     inputBackgroundColor: '#EFEFEE',
     inputFontColor: '#6fa8dc',
-    dropDownHoverColor: '#6fa8dc'
+    dropDownHoverColor: '#6fa8dc',
+    clearOnSelect: false,
+    iconBoxSize: "48px"
   };
 
   return (
@@ -41,7 +44,7 @@ const ArticleList = () => {
       <h1 className="text-6xl my-4">Spaceflight Article list</h1>
       <Pagination
         className="pagination-bar"
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page: any) => dispatch(setCurrentPage(page))}
         totalCount={totalCount}
         siblingCount={0}
         currentPage={currentPage}
@@ -50,6 +53,7 @@ const ArticleList = () => {
       {term !== '' && (
         <>
           <h1>Search results for "{term}"...</h1>
+          <button onClick={() => dispatch(reset())}>Clear search</button>
         </>
       )}
 
@@ -61,7 +65,7 @@ const ArticleList = () => {
 
       <Pagination
         className="pagination-bar"
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page: any) => setCurrentPage(page)}
         totalCount={totalCount}
         siblingCount={0}
         currentPage={currentPage}
