@@ -17,15 +17,14 @@ const ArticleList = () => {
     })()
   }, [])
 
-  console.log("articles: ", articles)
-
   return (
     <>
       <h1>ArticleList</h1>
-
-      {articles.map((article: ArticleType) => {
-        return <ArticleCard key={article.id} article={article} />
-      })}
+      <div className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3 ">
+        {articles.map((article: ArticleType) => {
+          return <ArticleCard key={article.id} article={article} />
+        })}
+      </div>
       <Pagination />
     </>
   )
