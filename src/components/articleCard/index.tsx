@@ -1,10 +1,6 @@
 import { ArticleType } from '@/typings/article'
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import MainImage from './mainImage'
-import TagContainer from './tagContainer'
-import TitleContainer from './titleContainer'
 import TextContainer from './textContainer'
 
 type ArticleCardProps = {
@@ -17,7 +13,15 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
     <>
       <div className='group cursor-pointer'>
         <MainImage imgSrc={article.image_url} />
-        <TextContainer />
+        {/* //TODO: Pass following pros using some other method */}
+        <TextContainer article={{
+          title: article.title,
+          url: article.url,
+          summary: article.summary,
+          published_at: article.published_at,
+          updated_at: article.updated_at,
+          featured: article.featured
+        }} />
       </div>
     </>
   )
