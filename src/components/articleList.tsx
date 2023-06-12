@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import Pagination from './pagination';
-import getData from '../app/api/articles/getAllArticles'
 import ArticleCard from './articleCard';
 import { ArticleType } from '@/typings/article';
+import getData from '@/app/api/articles/getAllArticles';
 
 
 const ArticleList = () => {
