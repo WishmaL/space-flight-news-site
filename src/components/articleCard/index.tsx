@@ -8,7 +8,6 @@ type ArticleCardProps = {
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
-  console.log(article.title)
   return (
     <>
       <div className='group cursor-pointer'>
