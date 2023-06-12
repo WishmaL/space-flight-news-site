@@ -22,7 +22,7 @@ const ArticleList = () => {
 
   return (
     <>
-      <h1>ArticleList</h1>
+      <h1 className='text-6xl my-4'>Spaceflight Article list</h1>
       <Pagination
         className="pagination-bar"
         onPageChange={page => setCurrentPage(page)}

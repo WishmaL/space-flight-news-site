@@ -1,6 +1,7 @@
 import React from 'react';
 import TagContainer from './tagContainer';
 import TitleContainer from './titleContainer';
+import SummaryContainer from './summaryContainer';
 
 type TextContainerType = {
   article: {
@@ -19,6 +20,7 @@ const TextContainer = ({ article }: TextContainerType) => {
       <div>
         <TagContainer published_at={article.published_at} featured={article.featured} />
         <TitleContainer title={article.title} />
+        <SummaryContainer summary={article.summary} />
       </div>
     </>
   );
