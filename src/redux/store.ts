@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import articleReducer from './features/articleSlice';
+import articleListReducer from './features/articleListSlice';
+// import favouriteListReducer from './features/favouriteArticleListSlice';
 import { articleApi } from './services/articleApi';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 export const store = configureStore({
   reducer: {
-    articleReducer,
+    articleListReducer,
+    // favouriteListReducer,
     [articleApi.reducerPath]: articleApi.reducer,
   },
   devTools: process.env.NODE_ENV !== 'production',

@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import Pagination from './pagination/pagination';
-import ArticleCard from './articleCard';
 import { ArticleType } from '@/typings/article';
 import ReactSearchBox from 'react-search-box';
 // TODO: remove reset
@@ -14,31 +12,23 @@ import {
   clearSearchTerm,
 } from '@/redux/features/articleListSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { useGetArticlesQuery } from '@/redux/services/articleApi';
+// import { useGetArticlesQuery } from '@/redux/services/articleApi';
+import Pagination from '@/components/pagination/pagination';
+import ArticleCard from '@/components/articleCard';
 
-const ArticleList = () => {
-  const { articles, currentPage, term, totalCount } = useAppSelector(
+const Favorites = () => {
+  const { articles, currentPage, term, totalCount, favouriteArticleIds } = useAppSelector(
     (state) => state.articleListReducer
   );
+
   const dispatch = useAppDispatch();
 
-  const { isLoading, isFetching, data, error } = useGetArticlesQuery({
-    limit: 10,
-    offset: 10 * (currentPage - 1),
-    term,
-  });
-
-  useEffect(() => {
-    if (data) {
-      dispatch(setArticles(data.results.map((obj: ArticleType) => ({ ...obj, favourite: false }))));
-      dispatch(setTotalCount(data.count));
-    }
-  }, [data]);
+  // favouriteArticleIds.includes(article.id)
 
   const searchBarProps = {
     placeholder: term !== '' ? 'Search for articles...' : term,
     value: term,
-    data: data ? [
+    data: favouriteArticleIds.length !== 0 ? [
       ...articles?.map((a: ArticleType) => {
         return { key: a.id.toString(), value: a.title };
       })
@@ -79,17 +69,13 @@ const ArticleList = () => {
         </>
       )}
 
-      {error ? (
-        <p>Oh no, there was an error</p>
-      ) : isLoading || isFetching ? (
-        <p>Loading...</p>
-      ) : data ? (
+      {favouriteArticleIds.length !== 0 ? (
         <div className="mt-10 grid gap-10 md:grid-cols-2 lg:gap-10 xl:grid-cols-3 ">
-          {articles.map((article: ArticleType) => {
-            return <ArticleCard key={article.id} article={article} />;
-          })}
+          {/* {articles.map((article: ArticleType) => {
+            return favouriteArticleIds.includes(article.id) && <ArticleCard key={article.id} article={article} />;
+          })} */}
         </div>
-      ) : null}
+      ) : <h2>No favorites articles are available !</h2>}
 
       <Pagination
         className="pagination-bar"
@@ -103,4 +89,4 @@ const ArticleList = () => {
   );
 };
 
-export default ArticleList;
+export default Favorites;

@@ -6,6 +6,7 @@ type ArticleListState = {
   currentPage: number;
   totalCount: number;
   term: string;
+  favouriteArticleIds: number[];
 };
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   currentPage: 1,
   totalCount: 0,
   term: '',
+  favouriteArticleIds: [],
 } as ArticleListState;
 
 export const articleList = createSlice({
@@ -29,6 +31,7 @@ export const articleList = createSlice({
       action: PayloadAction<ArticleType[]>
     ) => {
       state.articles = action.payload;
+      // state.articles = state.articles.concat(action.payload);
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
@@ -39,9 +42,37 @@ export const articleList = createSlice({
     setTerm: (state, action: PayloadAction<string>) => {
       state.term = action.payload;
     },
-    // addToFavorites:(state, action: PayloadAction<number>) => {
-    //   state.articles.find(i => i.id === action.payload).favourite = true
-    // }
+    addToFavourite: (
+      state: ArticleListState,
+      action: PayloadAction<number>
+    ) => {
+      // state.articles = state.articles
+      //   .filter((item) => item.id !== action.payload)
+      //   .concat([{ ...state.articles[idx], favourite: true }]);
+      state.favouriteArticleIds = state.favouriteArticleIds.concat(
+        action.payload
+      );
+
+      // state.articles.map((item) => {
+      //   if (item.id === action.payload) {
+      //     return { ...item, favourite: true };
+      //   } else {
+      //     return item;
+      //   }
+      // });
+    },
+    removeFromFavourite: (state, action: PayloadAction<number>) => {
+      // state.articles = state.articles.map((item) => {
+      //   if (item.id === action.payload) {
+      //     return { ...item, favourite: false };
+      //   } else {
+      //     return item;
+      //   }
+      // });
+      state.favouriteArticleIds = state.favouriteArticleIds.filter(
+        (id) => id !== action.payload
+      );
+    },
   },
 });
 
@@ -52,5 +83,7 @@ export const {
   setTerm,
   reset,
   clearSearchTerm,
+  addToFavourite,
+  removeFromFavourite,
 } = articleList.actions;
 export default articleList.reducer;
