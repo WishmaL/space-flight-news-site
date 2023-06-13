@@ -1,5 +1,7 @@
+// TODO: remove this
+
 import React from 'react';
-import TagContainer from './tagContainer';
+import CardHeader from './cardHeader';
 import TitleContainer from './titleContainer';
 import SummaryContainer from './summaryContainer';
 
@@ -18,7 +20,7 @@ const TextContainer = ({ article }: TextContainerType) => {
   return (
     <>
       <div>
-        <TagContainer published_at={article.published_at} featured={article.featured} />
+        <CardHeader published_at={article.published_at} featured={article.featured} />
         <TitleContainer title={article.title} />
         <SummaryContainer summary={article.summary} />
       </div>
