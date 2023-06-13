@@ -5,7 +5,6 @@ import Pagination from './pagination/pagination';
 import ArticleCard from './articleCard';
 import { ArticleType } from '@/typings/article';
 import ReactSearchBox from 'react-search-box';
-// TODO: remove reset
 import {
   setArticles,
   setCurrentPage,
