@@ -1,20 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ArticleType } from '@/typings/article';
 import ReactSearchBox from 'react-search-box';
-// TODO: remove reset
 import {
-  setArticles,
   setCurrentPage,
-  setTotalCount,
   setTerm,
   clearSearchTerm,
 } from '@/redux/features/articleListSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-// import { useGetArticlesQuery } from '@/redux/services/articleApi';
 import Pagination from '@/components/pagination/pagination';
-import ArticleCard from '@/components/articleCard';
 
 const Favorites = () => {
   const { articles, currentPage, term, totalCount, favouriteArticleIds } = useAppSelector(
@@ -22,8 +17,6 @@ const Favorites = () => {
   );
 
   const dispatch = useAppDispatch();
-
-  // favouriteArticleIds.includes(article.id)
 
   const searchBarProps = {
     placeholder: term !== '' ? 'Search for articles...' : term,
