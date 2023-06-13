@@ -6,7 +6,8 @@ import ArticleCard from './articleCard';
 import { ArticleType } from '@/typings/article';
 import getData from '@/app/api/articles/getAllArticles';
 import ReactSearchBox from 'react-search-box';
-import { setArticles, setCurrentPage, setTotalCount, setTerm, reset } from "@/redux/features/articleSlice";
+// TODO: remove reset
+import { setArticles, setCurrentPage, setTotalCount, setTerm, reset, clearSearchTerm } from "@/redux/features/articleSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const ArticleList = () => {
@@ -17,7 +18,7 @@ const ArticleList = () => {
   useEffect(() => {
     (async () => {
       const data = await getData(10, 10 * (currentPage - 1), term);
-      dispatch(setArticles(data.results));
+      dispatch(setArticles(data.results.map((obj: ArticleType) => ({ ...obj, favourite: false }))));
       dispatch(setTotalCount(data.count));
     })();
   }, [term, currentPage]);
@@ -35,12 +36,13 @@ const ArticleList = () => {
     inputFontColor: '#6fa8dc',
     dropDownHoverColor: '#6fa8dc',
     clearOnSelect: false,
-    iconBoxSize: "48px"
   };
 
   return (
     <>
-      <ReactSearchBox {...searchBarProps} />
+      <div className='w-1/2'>
+        <ReactSearchBox {...searchBarProps} />
+      </div>
       <h1 className="text-6xl my-4">Spaceflight Article list</h1>
       <Pagination
         className="pagination-bar"
@@ -53,7 +55,7 @@ const ArticleList = () => {
       {term !== '' && (
         <>
           <h1>Search results for "{term}"...</h1>
-          <button onClick={() => dispatch(reset())}>Clear search</button>
+          <button onClick={() => dispatch(clearSearchTerm())}>Clear search</button>
         </>
       )}
 

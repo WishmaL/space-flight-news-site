@@ -1,7 +1,7 @@
 import { ArticleType } from '@/typings/article';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type ArticleState = {
+type ArticleListState = {
   articles: ArticleType[];
   currentPage: number;
   totalCount: number;
@@ -13,15 +13,19 @@ const initialState = {
   currentPage: 1,
   totalCount: 0,
   term: '',
-} as ArticleState;
+} as ArticleListState;
 
-export const article = createSlice({
-  name: 'article',
+export const articleList = createSlice({
+  name: 'articleList',
   initialState,
   reducers: {
     reset: () => initialState,
+    clearSearchTerm: (state: ArticleListState) => {
+      state.term = '';
+      state.articles = [];
+    },
     setArticles: (
-      state: ArticleState,
+      state: ArticleListState,
       action: PayloadAction<ArticleType[]>
     ) => {
       state.articles = action.payload;
@@ -35,9 +39,18 @@ export const article = createSlice({
     setTerm: (state, action: PayloadAction<string>) => {
       state.term = action.payload;
     },
+    // addToFavorites:(state, action: PayloadAction<number>) => {
+    //   state.articles.find(i => i.id === action.payload).favourite = true
+    // }
   },
 });
 
-export const { setArticles, setCurrentPage, setTotalCount, setTerm, reset } =
-  article.actions;
-export default article.reducer;
+export const {
+  setArticles,
+  setCurrentPage,
+  setTotalCount,
+  setTerm,
+  reset,
+  clearSearchTerm,
+} = articleList.actions;
+export default articleList.reducer;

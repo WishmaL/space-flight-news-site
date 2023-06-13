@@ -10,4 +10,5 @@ export type ArticleType = {
   featured: boolean;
   launches: Array<any>;
   events: Array<any>;
+  favourite: boolean;
 };
